@@ -65,7 +65,7 @@ This looked good and can be used as our first step in the DAG file, with placeho
 
 ![Image showing output with product_id and total_quantity and adding CREATE TABLE to save the temporary table](./tableplus_outputs/create_temp_table_aggregated_product_sales.png)
 
-Decided to forego the `product_name` column after as when I use the GROUP BY on `product_id` and `product_name` it means it will group base on unique combinations of product_id and product_name
+Decided to forego the `product_name` column after as when I use the GROUP BY on `product_id` and `product_name` as it means it will group base on unique combinations of product_id and product_name
 
 5. Insert values into `product_sales_summary` table
 
@@ -91,7 +91,8 @@ dag = DAG(
     schedule_interval=timedelta(days=1),
     start_date=datetime(2023, 11, 28), # updated the start_date to the day I am setting this up
     catchup=False,
-)```
+)
+```
 
 2. Refined the query to extract new_product_sales given we don't need the product name anymore to the following:
 
