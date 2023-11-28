@@ -83,18 +83,20 @@ After some research, I found out how to add a CONSTRAINT when updating the *prod
 
 I updated the start_date to the day I am starting to run the DAG script. 
 
-`dag = DAG(
+```python
+dag = DAG(
     'challenge_dag', # set the dag to be called challenge_dag 
     default_args=default_args,
     description='A DAG to extract, transform, and load product data into a summary table',
     schedule_interval=timedelta(days=1),
     start_date=datetime(2023, 11, 28), # updated the start_date to the day I am setting this up
     catchup=False,
-)`
+)```
 
 2. Refined the query to extract new_product_sales given we don't need the product name anymore to the following:
 
-`CREATE TABLE IF NOT EXISTS new_product_sales AS
+```sql
+CREATE TABLE IF NOT EXISTS new_product_sales AS
 SELECT 
 product_id, 
 quantity,
@@ -102,23 +104,28 @@ sale_date
 FROM 
 product_sales 
 WHERE sale_date >= '{{ prev_ds }}'
-AND sale_date <= '{{ ds }}';`
+AND sale_date <= '{{ ds }}';
+```
 
 Tested out this query with a specified sale_date >= '2023-04-25' in TablePlus first before adding it to the dag script.
 
 3. Optimised the sql query to aggregate product_sales by removing ORDER BY so it doesn't take so long to run in Airflow.
 
-`    CREATE TABLE IF NOT EXISTS aggregated_product_sales AS
+```sql    
+CREATE TABLE IF NOT EXISTS aggregated_product_sales AS
     SELECT 
     product_id,
     SUM(quantity) as total_quantity
     FROM new_product_sales
-    GROUP BY product_id;`
+    GROUP BY product_id;
+```
 
 4. Add queries to remove the temporary tables 
 
-`DROP TABLE IF EXISTS new_product_sales;`
-`DROP TABLE IF EXISTS aggregated_product_sales;`
+```sql 
+DROP TABLE IF EXISTS new_product_sales;
+DROP TABLE IF EXISTS aggregated_product_sales;
+```
 
 Now that the DAG script is set up time to run it in Airflow. 
 
