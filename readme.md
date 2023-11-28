@@ -138,3 +138,9 @@ Now that the DAG script is set up time to run it in Airflow.
 
 It was all green on first try, the only thing I notice is the dag didn't trigger automatically probably due to the date being set us today. Think it needs to be set as the 
 day before for the script to be triggered. 
+
+## Check product_sales_summary
+
+![Image showing product_sales_summary table after running dag](./tableplus_outputs/product_sales_summary_output_after_dag.png)
+
+This screenshot shows that the product_sales_summary table was generated as expected! 
