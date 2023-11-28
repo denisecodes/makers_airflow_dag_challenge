@@ -36,10 +36,12 @@ The following is what I expect the output table (sales_rep_summary) to look like
     1. Import the necessary python libraries and methods
     2. Set the default arguments in a dictionary and create the Dag object with the parameters required
     3. Set the necessary SQL queries for ETL process 
+    4. Define the order of the steps 
 
 3. Run the DAG script
     1. Unpause the dag
     2. Run the dag
+    3. Fix any errors until every step is green
 
 ### TablePlus process
 
@@ -119,3 +121,12 @@ Tested out this query with a specified sale_date >= '2023-04-25' in TablePlus fi
 `DROP TABLE IF EXISTS aggregated_product_sales;`
 
 Now that the DAG script is set up time to run it in Airflow. 
+
+## Airflow process
+
+1. Unpuase the dag and run the dag in Airflow
+
+![Image showing successful DAG in Airflow](./airflow_outputs/airflow_success.png)
+
+It was all green on first try, the only thing I notice is the dag didn't trigger automatically probably due to the date being set us today. Think it needs to be set as the 
+day before for the script to be triggered. 
